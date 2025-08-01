@@ -1,0 +1,46 @@
+<%- include("partials/header.ejs") %>
+
+<div class="quiz">
+  <h1>Test your social status</h1>
+<% if (locals.question){%>
+    <h2 class="question"><%= question %></h2>
+<%}else { %>
+  <h2 class="question">Click the button below to begin the quiz</h2>  
+  <a class="clickbutton startbutton" href="/submit">Start Quiz</a>
+<% } %>
+
+<% if (locals.feedback) { %>
+  <p style="color: <%= highlight %>;"><strong><%= feedback %></strong></p>
+<% } %>
+
+<% if (locals.showAnswer) { %>
+  <p>
+    Correct answer:
+    <span style="color: green;"><%= correct_answer %></span>
+  </p>
+<% } %>
+
+<% if (locals.options && locals.options.length > 0) { %>
+    <% const letters = ["A", "B", "C", "D"]; %>
+  <form style="margin-bottom: 30px;" action="/check-answer" method="POST">
+    <% options.forEach((option, index) => { %>
+    <p class="options">
+    <strong><%= letters[index] %></strong>
+    <button type="submit" name="answer" value="<%= option %>"><%= option %></button>
+    </p>
+    <% }) %>
+  </form>
+    <a class="clickbutton endbutton" href="/">End Quiz</a>
+<% } %>
+
+  </div>
+
+  <% if (locals.redirect) { %>
+    <script>
+      setTimeout(() => {
+        window.location.href = "/submit";
+      }, 3000);
+    </script>
+  <% } %>
+
+<%- include("partials/footer.ejs") %>
